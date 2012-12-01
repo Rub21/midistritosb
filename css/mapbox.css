@@ -98,14 +98,14 @@
 .zoomer {
   width:30px;
   height:30px;
-  top:20px;
-  left:10px;
+  top:10px;
+  left:310px;
   z-index:2;
   }
 
 .zoomin {
   background-position:-31px -1px;
-  left:39px;
+  left:339px;
   -webkit-border-radius:0 3px 3px 0;
           border-radius:0 3px 3px 0;
   }
