@@ -37,7 +37,7 @@ var data_id = '0AhfXukqwpMbidFEwQXVWNFdRLXdJZVcwamlUWDRvemc',
 map.addLayer(mapbox.layer().id(map_id));
 mmg_google_docs_spreadsheet_1(data_id, mapData );
 map.centerzoom({  lat: -12.04157,  lon: -77.05688}, 14);
-map.setZoomRange(0, 18);
+map.setZoomRange(10, 15);
 
 // Build map
 function mapData(f) { 
@@ -167,7 +167,7 @@ function draw_main_box() {
     chart.draw(data, options);
     
     //Put the  total number incident on the view
-    $('#num-incident').html('Total de incidentes registrados : '+a_cantidad_type[6]); 
+    $('#num-incident').html('Total de puntos registrados : '+a_cantidad_type[6]); 
     //Delete loading gif      
     $('#block_statistic').removeClass('loading');
 }
