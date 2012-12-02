@@ -68,9 +68,13 @@
 
 
    <div id="block_text_desription2">
-        <h3>Otros</h3>
-       
-        </p>
+      
+
+
+     <div id="dynamicTable">
+      </div>
+
+
       </div>
 
 
@@ -124,44 +128,6 @@
 
 
 
-
-
-
-
-
-
-  <div id='opendata' class='popover'>
-    <h1>Datos Abiertos</h1>
-    <p>Mediante la presente  aplicación "SEGAYAC" se viene abriendo  datos  con respectos  a los incidentes delictivos,  registrados   desde enero del 2012 a la actualidad, por la Municipalidad provincial de Huamanga, Los incidentes delictivos registrados han sido clasificados en: Robo, Intento de Robo, Agresión, Accidentes, Violencia Familiar, Otros, los cuales son los que de manera frecuente suceden en la ciudad.
-    </p>
-    <p>La municipalidad Provincial de Humanga es un institución publica que se encuentra en el proceso de adoptar el nuevo paradigma  Datos Abiertos, esta institución  cuenta con una gran cantidad de datos,  que ya anteriormente  han sido otorgados  para su publicación de forma abierta, es el caso de planos catastrales que fueron publicados en <a href="http://www.openstreetmap.org/?lat=-13.16078&lon=-74.22367&zoom=16&layers=M">OpenStreetMap</a>  en Octubre del 2011. por algunos usuarios activos en esta ciudad.
-    </p>
-    <p>La Municipalidad Provincial de Huamanga, esta en el proceso de desarrollo de su portal de Datos Abiertos, que en próximos meses sera presentado a la ciudadanía. Para mas información en: <a href="http://datos.munihuamanga.gob.pe/">datos.munihuamanga.gob.pe</a>
-    </p>
-  </div>
-
-  <div id='howto' class='popover'>
-    <h1>Como Desarrollar</h1>
-    <p>La presente aplicación fue desarrollado utilizando datos de <a href="http://www.openstreetmap.org/?lat=-13.16078&lon=-74.22367&zoom=16&layers=M">OpenStreetMap</a>, estos datos fueron procesados con ImpOSM y PostGIS, seguidamente  para el diseño del mapa  se ha utilizado   TileMill con OSM-bright stylesheets, los cuales nos permite empezar en seguida con un mapa hermoso, con un combinación de colores personalizados y limpios  que permitirá  complementar cualquier tipo de información sobrepuestos en el mapa.
-    </p>
-    <p>Para el almacenamiento  de datos se ha utilizado Google spreadsheet API, que permite acceder a una  spreadsheets publico  a traves de  un jsonp feed. Seguidamente estos datos son recuperados  mediante una <a href="https://github.com/mapbox/mapbox.js/blob/master/extensions/mapbox.converters.googledocs.js, ">extencion</a> de  <a href="http://mapbox.com/mapbox.js/">mapbox.js</a> 
-    </p>
-    <p>Los marcadores  sobrepuestos en el mapa fueron desarrollados mediante  <a href="http://mapbox.com/mapbox.js/">mapbox.js</a> 
-    </p>
-    <p>
-      <span>Se puede encontrar más información en:</span>
-      <br>
-      <span>
-      <a href="http://developmentseed.org/blog/2012/sept/13/mapping-dynamic-data-google-spreadsheet/">
-      Mapping Dynamic Data Directly from a Google Spreadsheet</a> 
-      </span>
-      <br>
-      <span>
-        <a href="http://mapbox.com/blog/2012-09-05-mapping-crowdsourced-locations-google-docs/">
-        Mapping Crowdsourced Locations with MapBox and Google Docs</a>
-      </span>
-    </p>
-  </div>
   <a id='close' href='#close'>✕</a>
   <!-- scripts-->
   <script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.6/mapbox.js'></script>
@@ -169,8 +135,9 @@
   <script src="js/underscore-min.js"></script>
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <script src="js/google_docs.js"></script>
-  <script src="js/app.js"></script>    
-  <script src="js/twitter.js"></script>   
+  
+   <script src="js/tweetRace.js"></script>   
+   <script src="js/app.js"></script>    
   <!-- end scripts--> 
   </body>
 </html>

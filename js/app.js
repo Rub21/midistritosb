@@ -1,7 +1,7 @@
 var data_id = '0AhfXukqwpMbidFEwQXVWNFdRLXdJZVcwamlUWDRvemc',
     map_id='jimmyvelasquez.lima',
     markerLayer,
-    features,
+    features=[],
     features_summary,
     interaction,
     map = mapbox.map('map'),
@@ -33,15 +33,122 @@ var data_id = '0AhfXukqwpMbidFEwQXVWNFdRLXdJZVcwamlUWDRvemc',
         'Noviembre',
         'Diciembre'
     ];
+   
 
+     tweetRace.resultado = [];
+var t_data;
+
+
+//tweetRace.start();
+
+mm_twitter(fill_data_twiter);
+
+
+setTimeout(function(){
 map.addLayer(mapbox.layer().id(map_id));
 mmg_google_docs_spreadsheet_1(data_id, mapData );
-map.centerzoom({  lat: -12.04157,  lon: -77.05688}, 14);
-map.setZoomRange(10, 15);
+
+},4000);
+
+
+
+map.centerzoom({  lat: -12.04157,  lon: -77.05688}, 13);
+map.setZoomRange(12, 15);
+
+
+
+
+
+
+
+function fill_data_twiter(data_t){
+   //console.log(tweetRace.resultado);
+
+
+
+
+for(o in tweetRace.resultado) {
+
+   //console.log('-----ffffff')
+    //console.log(tweetRace.resultado[o].geo.coordinates)
+    //console.log(tweetRace.resultado[o].source);
+    //console.log(tweetRace.resultado[o].created_at);
+
+
+var feature21 = {
+                geometry: {
+                    type: 'Point',
+                    coordinates: []
+                },
+                properties: {
+                    'marker-color':'#8EC1DA',
+                    'distrito': 'Centro de Lima', //por prueba
+                    'description': tweetRace.resultado[o].text,  
+                    'date':  tweetRace.resultado[o].created_at,
+                    'hour': ' ',
+                    'marcatemporal': tweetRace.resultado[o].created_at,
+                    'url':tweetRace.resultado[o].entities.media[0].media_url
+                   
+                    
+            }
+    }
+
+feature21.geometry.coordinates[1] = parseFloat(tweetRace.resultado[o].geo.coordinates[0]);
+feature21.geometry.coordinates[0] = parseFloat(tweetRace.resultado[o].geo.coordinates[1]);
+
+
+/*
+alert()
+var d1 = Date.parse(tweetRace.resultado[o].created_at);
+alert(d1.toString('dd/mm/yyyy HH:mm:ss GMT'));
+
+
+*/
+
+
+
+a_cantidad_type[7]++;
+features.push(feature21);
+
+
+//console.log('ingreso la data');
+//console.log(features);
+
+}
+//alert(a_tipo_incidente.join());
+
+
+
+    
+}
+
+
+
 
 // Build map
+
+
+
+
 function mapData(f) { 
-    features = f;
+
+
+    
+ _.each(f, function (value, key) {      
+       
+          features.push(f[key]);
+    });
+
+
+
+
+//console.log(features);
+//console.log('A Mapear adatos');
+
+/*********************/
+
+//setTimeout(function(){
+
     markerLayer = mapbox.markers.layer().features(features);
     //Center markers layer
     markerLayer.factory(function (m) {
@@ -63,20 +170,36 @@ function mapData(f) {
     map.ui.zoombox.add();
 
     interaction.formatter(function (feature) {
-        var o = '<h3> Basura</h3>' +
+        var o = '<h3>'+feature.properties.distrito+'</h3>' +
         '<p>' + feature.properties.description + '</p>' +
+
+        '<img style=\'height: 200px; width:150px;\' src=\''+feature.properties.url+'\'> ' +  
+
         '<p><strong> Fecha :</strong> ' + 
         feature.properties.date.replace('Fecha: ',"") + ' '+
         feature.properties.hour.replace('Hora: ',"")+'</p>' ;
+
         return o;
     });
 
-    //fmonth(features);    
+
+//},2000);
+
+
+
+
+
+//alert(features.length);
+
+fmonth(features);    
     //Out url for download  data
+
+
+createtable (f);
+
     download_data();
     $('#map').removeClass('loading');
-
-    mmg_t();
+    
 }
 
 function newMarker() {
@@ -100,19 +223,21 @@ function fmonth(f) {
      
     //Take only month from date in googlespretsheet dd/MM/yyyy
     _.each(f, function (value, key) {
-        aDate = f[key].properties.date.split("/");
-        aMonth.push(aDate[1]);//Push month in array aMoth
+       
+       if(f[key].properties.distrito!='')
+          aMonth.push(f[key].properties.distrito);
+
     });
    
     aMonth = _.uniq(aMonth);
     aMonth=aMonth.sort();
- 
+ //alert(aMonth.join());
     //Create a tag "li" and  "a" with "id=aMonth[i]" for menu month in the view
     for (var i = 0; i< aMonth.length; i++) {
         var new_li = document.createElement("li");
 
-        new_li.innerHTML = '<a href= \'#\'  id=\''+aMonth[i]+'\' > ' + 
-        monthNames[aMonth[i]-1]+ '</a>';
+        new_li.innerHTML = '<a href= \'#\'  id=\''+aMonth[i].replace(/\s/g,"_")+'\' > ' + 
+        aMonth[i]+ '</a>';
 
         parent.appendChild(new_li);
 
@@ -128,8 +253,8 @@ function statisticData(f){
 
     _.each(f, function (value, key) {
         a_tipo_incidente.push(f[key].properties.tipo_incidente);
-        a_cantidad_type.push(f[key].properties.cantidad_type);
-        a_cantjanuary.push(f[key].properties.cantjanuary);
+       a_cantidad_type.push(f[key].properties.cantidad_type);
+        /*a_cantjanuary.push(f[key].properties.cantjanuary);
         a_cantfebruary.push(f[key].properties.cantfebruary);
         a_cantmarch.push(f[key].properties.cantmarch);
         a_cantapril.push(f[key].properties.cantapril);
@@ -140,10 +265,12 @@ function statisticData(f){
         a_cantseptember.push(f[key].properties.cantmarch);
         a_cantoctober.push(f[key].properties.cantoctober);
         a_cantnovember.push(f[key].properties.cantnovember);
-        a_cantdecember.push(f[key].properties.cantdecember);
+        a_cantdecember.push(f[key].properties.cantdecember);*/
 
     });
 }
+
+
 
 //Call the  fuction from  google chart API,  for create main statistic box
 google.load("visualization", "1", {packages:["corechart"]});
@@ -152,10 +279,10 @@ google.setOnLoadCallback(draw_main_box);
 //Function for draw the main statistic box
 function draw_main_box() {
     var data = new google.visualization.DataTable(),
-        options = { backgroundColor: 'transparent', colors:['#CB3334', '#FFCC33','#653332','#CC6633','#666535','#222222'] },
+        options = { backgroundColor: 'transparent', colors:['#CB3334', '#FFCC33','#653332','#CC6633','#666535','#222222','#675345','#214562'] },
         chart = new google.visualization.PieChart(document.getElementById('img_total_percentage'));
 
-    data.addColumn('string', 'Incidencias');
+    data.addColumn('string', 'distrito');
     data.addColumn('number', 'Porcentaje');
     data.addRows([
         [a_tipo_incidente[0], parseInt(a_cantidad_type[0],10)],
@@ -163,13 +290,24 @@ function draw_main_box() {
         [a_tipo_incidente[2], parseInt(a_cantidad_type[2],10)],
         [a_tipo_incidente[3], parseInt(a_cantidad_type[3],10)],
         [a_tipo_incidente[4], parseInt(a_cantidad_type[4],10)],
-        [a_tipo_incidente[5], parseInt(a_cantidad_type[5],10)]
+        [a_tipo_incidente[5], parseInt(a_cantidad_type[5],10)],
+        [a_tipo_incidente[6], parseInt(a_cantidad_type[6],10)],
+        [a_tipo_incidente[7], parseInt(a_cantidad_type[7],10)]
+
+       /* Rimac
+Independencia
+San Martin de Porres
+Los Olivos
+Comas
+Puente Piedra
+Ancon*/
     ]);           
    
     chart.draw(data, options);
     
+    var numpuntos=a_cantidad_type[8]+ _.size(features);
     //Put the  total number incident on the view
-    $('#num-incident').html('Total de puntos registrados : '+a_cantidad_type[6]); 
+    $('#num-incident').html('Total de puntos registrados : '+ numpuntos); 
     //Delete loading gif      
     $('#block_statistic').removeClass('loading');
 }
@@ -266,65 +404,50 @@ function indicateMenuIncident() {
 
 // Document already
 $(document).on('ready',function() {
+
+
+
     // Get event click on menu month
     $('#ul_menu_month').on('click', 'li', function (e) {
         var id_event_month=e.target.id;
         //Gentralizing the map
-        map.ease.location({ lat: -13.16039, lon: -74.22574}).zoom(14).optimal();
+        map.ease.location({ lat: -12.04157, lon:  -77.05688}).zoom(14).optimal();
 
         //Gheck if click is on all incidents
         if (id_event_month == "all_incident_month") {
-            //Renove all active class 
-            $('#ul_menu_month li a').removeClass('active');
-            //Put in here the active clas
-            $('#'+id_event_month).addClass('active');
-            indicateMenuIncident();
-
-            if ($('#ul_menu_type_incident .active').attr('id') != 'all_incident_type') {
-                markerLayer.filter(function (features) {
-                    if(features.properties['title'].replace(/\s/g,"_")== $('#ul_menu_type_incident .active').attr('id'))
-                    return true;                    
-                });
-            } else {
-                markerLayer.filter(function (features) {
-                    // Returning true for all markers shows everything.
-                    return true;
-                });
-                
-                return false;
-            }    
-
-        } else {
+       
+        //Here classified by date all incidente
+                markerLayer.filter(function (features) { 
+                    //Create arraydate and this get month from data JSON
+                    return true;                                                      
+                });                 
+        }   else {
             //Check if on menu type incident is active option "Todos Incidentes" with id=all_incident_type 
-            if ($('#ul_menu_type_incident .active').attr('id') == "all_incident_type") {
+   
                 $('#ul_menu_month li a').removeClass('active');
                 $('#'+id_event_month).addClass('active');
-                indicateMenuIncident();
+               // indicateMenuIncident();
                 //Here classified by date all incidente
                 markerLayer.filter(function (features) { 
                     //Create arraydate and this get month from data JSON
-                    var arraydate = features.properties['date'].split("/");
+                    var dist = features.properties['distrito'].replace(/\s/g,"_");
 
-                    if (arraydate[1]== id_event_month)
+                    if ($('#ul_menu_month .active').attr('id')== dist)
                         return true;                                                      
                 });
-            } else {
-                $('#ul_menu_month li a').removeClass('active');
-                $('#'+id_event_month).addClass('active');
-                indicateMenuIncident();
-                //Here classified by date and by type of incidente
-                markerLayer.filter(function (features) { 
-                    var arraydate = features.properties['date'].split("/");
-                    //Conditional double .. incident type and date
-                    if (arraydate[1] == e.target.id && features.properties.title.replace(/\s/g,"_") == $('#ul_menu_type_incident .active').attr('id'))
-                        return true;                    
-                });
-            }
+            } 
             
             return false;         
-        }
+        });
         
-    });
+  
+
+
+
+
+
+
+
 
 
     //Get the click on button for to show block line statistic
@@ -359,11 +482,11 @@ $(document).on('ready',function() {
 
 
     // Get event click on menu type incident
-    $('#ul_menu_type_incident li').click(function (e) {
+  /*  $('#ul_menu_type_incident li').click(function (e) {
         var id_event_type=e.target.id;
 
         //Centralizing the map
-        map.ease.location({ lat: -13.16039, lon: -74.22574}).zoom(15).optimal();
+        map.ease.location({ lat: -12.04157, lon:  -77.05688}).zoom(15).optimal();
 
         //Check is is active on menu type "Mostrar Todos "
         if (id_event_type == 'all_incident_type') {
@@ -441,7 +564,7 @@ $(document).on('ready',function() {
             google.setOnLoadCallback(draw_type_incedent);           
             return false;         
         }
-    });
+    });*/
 
 
 
@@ -496,7 +619,83 @@ $(document).on('ready',function() {
         $('#arrow_show_block').css('background-color','#292929') ;
     });
 
+    /**********************************************************************/
+         $("#dataTable a").on("click", function(e){
+
+     var id_variable=$(this).attr('id');// id_variable take id from 'a' tag
+     var lat_inc, lon_inc;//varrible lat_inc and lon_inc for get a latitud an longitud for ease.location
+
+//alert(id_variable);
+       markerLayer.filter(function (features) {  
+            
+
+            if(features.properties.marcatemporal.replace(/\s/g,"_")=== id_variable)//replaza los espacion en blanco con subguion y compara con el ID
+            {
+                //alert(features.properties.marcatemporal.replace(/\s/g,"_"));
+                lat_inc=features.geometry.coordinates[1];//take latitud
+                lon_inc=features.geometry.coordinates[0];//take longitud
+                map.ease.location({ lat: lat_inc, lon: lon_inc}).zoom(14).optimal();
+                return true; 
+            }
+
+            
+
+        });  
+      
+        return false;   
+    });
+
+
+
+
+
+
+
+
+
 });
 
 
 
+/************************************************/
+
+
+    function createtable (f){
+        // create table
+
+
+
+        var $table = $('<table>');
+        //id
+        $table.attr("id","dataTable")
+        // caption
+        $table.append('<caption>Ultimo Registros</caption>')
+        // thead
+        $table.append('<thead>').children('thead')
+        .append('<tr />').children('tr').append('<th>lugar</th><th>Fecha</th>');
+
+        //tbody
+        var $tbody = $table.append('<tbody />').children('tbody');
+
+        // add row
+
+//_.each(f, function (value, key) {
+        for (var i = f.length - 1; i >= f.length - 8; i--) {
+                  
+            $tbody.append('<tr/>').children('tr:last')
+            .append('<td><a id=\''+f[i].properties.marcatemporal.replace(/\s/g,"_")+ '\' href=\'#\'>'+ f[i].properties.distrito+"</a></td>")
+            .append("<td>"+f[i].properties.date.replace('Fecha: ',"")+"</td>");
+
+             console.log(f[i].properties.marcatemporal);
+          
+        }
+ 
+   // });
+
+
+
+    // add table to dom
+    $table.appendTo('#dynamicTable');
+
+
+    }
