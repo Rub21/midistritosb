@@ -131,7 +131,7 @@ function fmonth(f) {
     for (var i = 0; i< aMonth.length; i++) {
         var new_li = document.createElement("li");
 
-        new_li.innerHTML = '<a href= \'#\'  id=\''+aMonth[i]+'\' > ' + 
+        new_li.innerHTML = '<a href= \'#\'  id=\''+aMonth[i].replace(/\s/g,"_")+'\' > ' + 
         aMonth[i]+ '</a>';
 
         parent.appendChild(new_li);
@@ -288,6 +288,9 @@ function indicateMenuIncident() {
 
 // Document already
 $(document).on('ready',function() {
+
+
+
     // Get event click on menu month
     $('#ul_menu_month').on('click', 'li', function (e) {
         var id_event_month=e.target.id;
@@ -296,57 +299,39 @@ $(document).on('ready',function() {
 
         //Gheck if click is on all incidents
         if (id_event_month == "all_incident_month") {
-            //Renove all active class 
-            $('#ul_menu_month li a').removeClass('active');
-            //Put in here the active clas
-            $('#'+id_event_month).addClass('active');
-            indicateMenuIncident();
-
-            if ($('#ul_menu_type_incident .active').attr('id') != 'all_incident_type') {
-                markerLayer.filter(function (features) {
-                    if(features.properties['title'].replace(/\s/g,"_")== $('#ul_menu_type_incident .active').attr('id'))
-                    return true;                    
-                });
-            } else {
-                markerLayer.filter(function (features) {
-                    // Returning true for all markers shows everything.
-                    return true;
-                });
-                
-                return false;
-            }    
-
-        } else {
+       
+        //Here classified by date all incidente
+                markerLayer.filter(function (features) { 
+                    //Create arraydate and this get month from data JSON
+                    return true;                                                      
+                });                 
+        }   else {
             //Check if on menu type incident is active option "Todos Incidentes" with id=all_incident_type 
-            if ($('#ul_menu_type_incident .active').attr('id') == "all_incident_type") {
+   
                 $('#ul_menu_month li a').removeClass('active');
                 $('#'+id_event_month).addClass('active');
-                indicateMenuIncident();
+               // indicateMenuIncident();
                 //Here classified by date all incidente
                 markerLayer.filter(function (features) { 
                     //Create arraydate and this get month from data JSON
-                    var arraydate = features.properties['date'].split("/");
+                    var dist = features.properties['distrito'].replace(/\s/g,"_");
 
-                    if (arraydate[1]== id_event_month)
+                    if ($('#ul_menu_month .active').attr('id')== dist)
                         return true;                                                      
                 });
-            } else {
-                $('#ul_menu_month li a').removeClass('active');
-                $('#'+id_event_month).addClass('active');
-                indicateMenuIncident();
-                //Here classified by date and by type of incidente
-                markerLayer.filter(function (features) { 
-                    var arraydate = features.properties['date'].split("/");
-                    //Conditional double .. incident type and date
-                    if (arraydate[1] == e.target.id && features.properties.title.replace(/\s/g,"_") == $('#ul_menu_type_incident .active').attr('id'))
-                        return true;                    
-                });
-            }
+            } 
             
             return false;         
-        }
+        });
         
-    });
+  
+
+
+
+
+
+
+
 
 
     //Get the click on button for to show block line statistic
@@ -381,7 +366,7 @@ $(document).on('ready',function() {
 
 
     // Get event click on menu type incident
-    $('#ul_menu_type_incident li').click(function (e) {
+  /*  $('#ul_menu_type_incident li').click(function (e) {
         var id_event_type=e.target.id;
 
         //Centralizing the map
@@ -463,7 +448,7 @@ $(document).on('ready',function() {
             google.setOnLoadCallback(draw_type_incedent);           
             return false;         
         }
-    });
+    });*/
 
 
 
