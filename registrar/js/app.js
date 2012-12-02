@@ -14,13 +14,24 @@ $(document).on('ready',function () {
 	
 	function onMapClick(e) {
     var latlngStr = '(' + e.latlng.lat.toFixed(5) + ', ' + e.latlng.lng.toFixed(5) + ')';
-	latlngStr="<h3>"+latlngStr+"</h3>";
+	latlngStr="";
     popup.setLatLng(e.latlng);
-    popup.setContent("<h3>Cordenadas</h3>" + latlngStr);
+    popup.setContent("<h6>Punto de Crítico</h6>" + latlngStr);
     map.openPopup(popup);
     //Here put the coordinates in field Latitud dan Longitud
 	$('#entry_5').attr('value',  e.latlng.lat.toFixed(5));
     $('#entry_6').attr('value',  e.latlng.lng.toFixed(5));
 	}
+
+
+	$("#button").click(function(){
+ var myurl = document.getElementById("entry_14");
+
+   $('#entry_14').attr('value','http://dl.dropbox.com/u/43116811/basura/bas14.jpg');
+		
+	});
+
+	
+
 
 });

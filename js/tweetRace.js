@@ -82,9 +82,9 @@ var puntos = []
                 tweetRace.resultado.push(element);
 
 /*para imagen*/
-                if(element.entities.media){
-                   console.log(element.entities.media[0].media_url);
-                }
+              //  if(element.entities.media){
+//console.log(element.entities.media[0].media_url);
+//}
 
 
               /* 

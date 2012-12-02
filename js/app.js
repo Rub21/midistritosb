@@ -1,5 +1,5 @@
 var data_id = '0AhfXukqwpMbidFEwQXVWNFdRLXdJZVcwamlUWDRvemc',
-    map_id='jimmyvelasquez.lima',
+    map_id='jclema.map-54suv3xn',
     markerLayer,
     features=[],
     features_summary,
@@ -173,7 +173,7 @@ function mapData(f) {
         var o = '<h3>'+feature.properties.distrito+'</h3>' +
         '<p>' + feature.properties.description + '</p>' +
 
-        '<img style=\'height: 200px; width:150px;\' src=\''+feature.properties.url+'\'> ' +  
+        '<img style=\'height: 150px; width:150px;\' src=\''+feature.properties.url+'\'> ' +  
 
         '<p><strong> Fecha :</strong> ' + 
         feature.properties.date.replace('Fecha: ',"") + ' '+

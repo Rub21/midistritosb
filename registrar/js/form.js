@@ -27,6 +27,11 @@ $(function(){
     $("#entry_2").attr('readonly',  'readonly');
     $("#entry_5").attr('readonly',  'readonly');
     $("#entry_6").attr('readonly',  'readonly');
+
+
+
+      
+
 });
 
 
