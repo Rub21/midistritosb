@@ -1,6 +1,6 @@
 body {
   background-color: #fff;
-  font: 14px/20px Arial, Helvetica, sans-serif;
+  font: 16px/20px Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0; 
   }
@@ -442,6 +442,7 @@ Block to show  description about  incident . "Incidentes Delictivos en Ayacucho"
   -webkit-box-shadow: 0 0 3px 3px#ddd;
   box-shadow: 0 0 3px 3px #ddd;
 
+  font-size:14px;
   }
 
 #block_text_desription h3 {
