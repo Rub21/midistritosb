@@ -75,6 +75,8 @@ function mapData(f) {
     //Out url for download  data
     download_data();
     $('#map').removeClass('loading');
+
+    mmg_t();
 }
 
 function newMarker() {
