@@ -445,7 +445,7 @@ Block to show  description about  incident . "Incidentes Delictivos en Ayacucho"
    -moz-box-shadow: 0 0 3px 3px #ddd;
   -webkit-box-shadow: 0 0 3px 3px#ddd;
   box-shadow: 0 0 3px 3px #ddd;
-
+opacity: 0.8;
   font-size:14px;
   }
 
