@@ -568,7 +568,7 @@ Block to description OPEN DATA
 
 #block_downloads {
   background: #fff;
-  height: 450px;
+  height: 400px;
   float: right;
   margin-left: 0px;
   width: 300px;
@@ -649,7 +649,7 @@ a.button:hover {
 -------------------------------------*/
 
 #downloads {
-  margin-top: 35px;
+  margin-top: -20px;
   }
 
 #downloads .col {

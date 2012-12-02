@@ -62,17 +62,17 @@ map.setZoomRange(12, 15);
 
 
 function fill_data_twiter(data_t){
-   console.log(tweetRace.resultado);
+   //console.log(tweetRace.resultado);
 
 
 
 
 for(o in tweetRace.resultado) {
 
-   console.log('-----ffffff')
-    console.log(tweetRace.resultado[o].geo.coordinates)
-    console.log(tweetRace.resultado[o].source);
-    console.log(tweetRace.resultado[o].created_at);
+   //console.log('-----ffffff')
+    //console.log(tweetRace.resultado[o].geo.coordinates)
+    //console.log(tweetRace.resultado[o].source);
+    //console.log(tweetRace.resultado[o].created_at);
 
 
 var feature21 = {
@@ -86,7 +86,7 @@ var feature21 = {
                     'description': tweetRace.resultado[o].text,  
                     'date':  tweetRace.resultado[o].created_at,
                     'hour': ' ',
-                    'marcatemporal': tweetRace.resultado[o].id,
+                    'marcatemporal': tweetRace.resultado[o].created_at,
                     'url':tweetRace.resultado[o].entities.media[0].media_url
                    
                     
@@ -173,7 +173,7 @@ function mapData(f) {
         var o = '<h3>'+feature.properties.distrito+'</h3>' +
         '<p>' + feature.properties.description + '</p>' +
 
-        '<img style=\'height: 100px; width:100px;\' src=\''+feature.properties.url+'\'> ' +  
+        '<img style=\'height: 200px; width:150px;\' src=\''+feature.properties.url+'\'> ' +  
 
         '<p><strong> Fecha :</strong> ' + 
         feature.properties.date.replace('Fecha: ',"") + ' '+
@@ -662,6 +662,9 @@ $(document).on('ready',function() {
 
     function createtable (f){
         // create table
+
+
+
         var $table = $('<table>');
         //id
         $table.attr("id","dataTable")
@@ -682,6 +685,8 @@ $(document).on('ready',function() {
             $tbody.append('<tr/>').children('tr:last')
             .append('<td><a id=\''+f[i].properties.marcatemporal.replace(/\s/g,"_")+ '\' href=\'#\'>'+ f[i].properties.distrito+"</a></td>")
             .append("<td>"+f[i].properties.date.replace('Fecha: ',"")+"</td>");
+
+             console.log(f[i].properties.marcatemporal);
           
         }
  
