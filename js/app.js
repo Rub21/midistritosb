@@ -52,8 +52,8 @@ mmg_google_docs_spreadsheet_1(data_id, mapData );
 
 
 
-map.centerzoom({  lat: -12.04157,  lon: -77.05688}, 14);
-map.setZoomRange(10, 15);
+map.centerzoom({  lat: -12.04157,  lon: -77.05688}, 13);
+map.setZoomRange(12, 15);
 
 
 
@@ -81,8 +81,8 @@ var feature21 = {
                     coordinates: []
                 },
                 properties: {
-                    'marker-color':'#0ff',
-                    'distrito': 'Comas', //por prueba
+                    'marker-color':'#8EC1DA',
+                    'distrito': 'Centro de Lima', //por prueba
                     'description': tweetRace.resultado[o].text,  
                     'date':  tweetRace.resultado[o].created_at,
                     'hour': ' ',
@@ -101,9 +101,8 @@ console.log(feature21.geometry.coordinates);
 console.log('final******************************');*/
 
 /*console.log('Non ingreso la data');*/
-a_cantidad_type[1]++;
 
-
+a_cantidad_type[7]++;
 features.push(feature21);
 
 
@@ -111,6 +110,8 @@ console.log('ingreso la data');
 console.log(features);
 
 }
+//alert(a_tipo_incidente.join());
+
 
 
     
@@ -211,11 +212,12 @@ function fmonth(f) {
        
        if(f[key].properties.distrito!='')
           aMonth.push(f[key].properties.distrito);
+
     });
    
     aMonth = _.uniq(aMonth);
-    /*aMonth=aMonth.sort();*/
- 
+    aMonth=aMonth.sort();
+ //alert(aMonth.join());
     //Create a tag "li" and  "a" with "id=aMonth[i]" for menu month in the view
     for (var i = 0; i< aMonth.length; i++) {
         var new_li = document.createElement("li");
@@ -263,7 +265,7 @@ google.setOnLoadCallback(draw_main_box);
 //Function for draw the main statistic box
 function draw_main_box() {
     var data = new google.visualization.DataTable(),
-        options = { backgroundColor: 'transparent', colors:['#CB3334', '#FFCC33','#653332','#CC6633','#666535','#222222'] },
+        options = { backgroundColor: 'transparent', colors:['#CB3334', '#FFCC33','#653332','#CC6633','#666535','#222222','#675345','#214562'] },
         chart = new google.visualization.PieChart(document.getElementById('img_total_percentage'));
 
     data.addColumn('string', 'distrito');
@@ -274,7 +276,17 @@ function draw_main_box() {
         [a_tipo_incidente[2], parseInt(a_cantidad_type[2],10)],
         [a_tipo_incidente[3], parseInt(a_cantidad_type[3],10)],
         [a_tipo_incidente[4], parseInt(a_cantidad_type[4],10)],
-        [a_tipo_incidente[5], parseInt(a_cantidad_type[5],10)]
+        [a_tipo_incidente[5], parseInt(a_cantidad_type[5],10)],
+        [a_tipo_incidente[6], parseInt(a_cantidad_type[6],10)],
+        [a_tipo_incidente[7], parseInt(a_cantidad_type[7],10)]
+
+       /* Rimac
+Independencia
+San Martin de Porres
+Los Olivos
+Comas
+Puente Piedra
+Ancon*/
     ]);           
    
     chart.draw(data, options);

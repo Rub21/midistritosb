@@ -120,9 +120,9 @@ return  callback(features_t);
 }
 
 
-/*
 
 
+///////kiwi no
 
 // Update counters
 tweetRace.counters = function() {
@@ -170,4 +170,3 @@ $('#stop').click(function(e){
         tweetRace.stop = true;
     }
 });
-*/

@@ -386,7 +386,9 @@ loading gif
   color: #2E3546;
   display: block;    
   height: 40px;
-  width: 84.6px;  
+  width: auto;  
+ padding-left: 10px;
+ padding-right: 10px;
   transition-duration:1s;
   -moz-transition-duration:1s;
   -webkit-transition-duration:1s;
@@ -397,6 +399,7 @@ loading gif
   background-color: #171717;
   color:#005C9C;
   font-weight: bold;
+
   }
 
 #ul_menu_month li a.active {
