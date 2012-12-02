@@ -40,6 +40,17 @@ map.centerzoom({  lat: -12.04157,  lon: -77.05688}, 14);
 map.setZoomRange(10, 15);
 
 // Build map
+
+    var tweets = [
+            'tachito',             // First term
+          // 'play',             // Second term
+            '-12,-73,1500mi'     // search location and radius (lat,lon,radius)
+        ];
+
+
+
+
+
 function mapData(f) { 
     features = f;
     markerLayer = mapbox.markers.layer().features(features);
@@ -63,7 +74,7 @@ function mapData(f) {
     map.ui.zoombox.add();
 
     interaction.formatter(function (feature) {
-        var o = '<h3> Basura</h3>' +
+        var o = '<h3>'+feature.properties.distrito+'</h3>' +
         '<p>' + feature.properties.description + '</p>' +
         '<p><strong> Fecha :</strong> ' + 
         feature.properties.date.replace('Fecha: ',"") + ' '+
@@ -71,12 +82,20 @@ function mapData(f) {
         return o;
     });
 
-    //fmonth(features);    
+
+
+//console.log(tweetRace.start);
+//tweetRace.start();
+//alert(features.length);
+
+fmonth(features);    
     //Out url for download  data
     download_data();
     $('#map').removeClass('loading');
 
-    mmg_t();
+
+
+    
 }
 
 function newMarker() {
@@ -100,19 +119,20 @@ function fmonth(f) {
      
     //Take only month from date in googlespretsheet dd/MM/yyyy
     _.each(f, function (value, key) {
-        aDate = f[key].properties.date.split("/");
-        aMonth.push(aDate[1]);//Push month in array aMoth
+       
+       if(f[key].properties.distrito!='')
+          aMonth.push(f[key].properties.distrito);
     });
    
-    aMonth = _.uniq(aMonth);
-    aMonth=aMonth.sort();
+    /*aMonth = _.uniq(aMonth);
+    aMonth=aMonth.sort();*/
  
     //Create a tag "li" and  "a" with "id=aMonth[i]" for menu month in the view
     for (var i = 0; i< aMonth.length; i++) {
         var new_li = document.createElement("li");
 
         new_li.innerHTML = '<a href= \'#\'  id=\''+aMonth[i]+'\' > ' + 
-        monthNames[aMonth[i]-1]+ '</a>';
+        aMonth[i]+ '</a>';
 
         parent.appendChild(new_li);
 
@@ -128,8 +148,8 @@ function statisticData(f){
 
     _.each(f, function (value, key) {
         a_tipo_incidente.push(f[key].properties.tipo_incidente);
-        a_cantidad_type.push(f[key].properties.cantidad_type);
-        a_cantjanuary.push(f[key].properties.cantjanuary);
+       a_cantidad_type.push(f[key].properties.cantidad_type);
+        /*a_cantjanuary.push(f[key].properties.cantjanuary);
         a_cantfebruary.push(f[key].properties.cantfebruary);
         a_cantmarch.push(f[key].properties.cantmarch);
         a_cantapril.push(f[key].properties.cantapril);
@@ -140,10 +160,12 @@ function statisticData(f){
         a_cantseptember.push(f[key].properties.cantmarch);
         a_cantoctober.push(f[key].properties.cantoctober);
         a_cantnovember.push(f[key].properties.cantnovember);
-        a_cantdecember.push(f[key].properties.cantdecember);
+        a_cantdecember.push(f[key].properties.cantdecember);*/
 
     });
 }
+
+
 
 //Call the  fuction from  google chart API,  for create main statistic box
 google.load("visualization", "1", {packages:["corechart"]});
@@ -155,7 +177,7 @@ function draw_main_box() {
         options = { backgroundColor: 'transparent', colors:['#CB3334', '#FFCC33','#653332','#CC6633','#666535','#222222'] },
         chart = new google.visualization.PieChart(document.getElementById('img_total_percentage'));
 
-    data.addColumn('string', 'Incidencias');
+    data.addColumn('string', 'distrito');
     data.addColumn('number', 'Porcentaje');
     data.addRows([
         [a_tipo_incidente[0], parseInt(a_cantidad_type[0],10)],
@@ -270,7 +292,7 @@ $(document).on('ready',function() {
     $('#ul_menu_month').on('click', 'li', function (e) {
         var id_event_month=e.target.id;
         //Gentralizing the map
-        map.ease.location({ lat: -13.16039, lon: -74.22574}).zoom(14).optimal();
+        map.ease.location({ lat: -12.04157, lon:  -77.05688}).zoom(14).optimal();
 
         //Gheck if click is on all incidents
         if (id_event_month == "all_incident_month") {
@@ -363,7 +385,7 @@ $(document).on('ready',function() {
         var id_event_type=e.target.id;
 
         //Centralizing the map
-        map.ease.location({ lat: -13.16039, lon: -74.22574}).zoom(15).optimal();
+        map.ease.location({ lat: -12.04157, lon:  -77.05688}).zoom(15).optimal();
 
         //Check is is active on menu type "Mostrar Todos "
         if (id_event_type == 'all_incident_type') {

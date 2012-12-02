@@ -36,6 +36,7 @@ function mmg_google_docs_spreadsheet_1(id, callback) {
                 },
                 properties: {
                     'marker-color':'#034',
+                    'distrito': entry['gsx$distrito'].$t, 
                     'description': entry['gsx$descripción-comentario'].$t,  
                     'date': 'Fecha: ' + entry['gsx$fechaaviso'].$t,
                     'hour': 'Hora: ' + entry['gsx$horaaviso'].$t,
@@ -92,7 +93,7 @@ function mmg_google_docs_spreadsheet_2(id, callback) {
                 properties: {                    
                     'tipo_incidente': entry['gsx$tipoincidente'].$t,
                     'cantidad_type': parseInt(entry['gsx$cantidadtype'].$t),  
-                    'cantjanuary': parseInt(entry['gsx$cantjanuary'].$t),  
+                   /* 'cantjanuary': parseInt(entry['gsx$cantjanuary'].$t),  
                     'cantfebruary':parseInt(entry['gsx$cantfebruary'].$t),
                     'cantmarch':parseInt(entry['gsx$cantmarch'].$t),
                     'cantapril':parseInt(entry['gsx$cantapril'].$t),
@@ -103,7 +104,7 @@ function mmg_google_docs_spreadsheet_2(id, callback) {
                     'cantseptember':parseInt(entry['gsx$cantseptember'].$t),
                     'cantoctober':parseInt(entry['gsx$cantoctober'].$t),
                     'cantnovember':parseInt(entry['gsx$cantnovember'].$t),
-                    'cantdecember':parseInt(entry['gsx$cantdecember'].$t)   
+                    'cantdecember':parseInt(entry['gsx$cantdecember'].$t)   */
                 }
             };
 

@@ -1,67 +1,54 @@
-function mmg_t(callback) {
-    if (typeof reqwest === 'undefined'){
-        throw 'CSV: reqwest required for mmg_csv_url';
-    }
-   // alert('nuevo t');
+// Fetch tweets from Twitter
+tweetRace.getTweets = function(d) {
+    tweetRace.params.q = query;
+    tweetRace.params.geocode = geo;    
 
-    var url = 'http://search.twitter.com/search.json?q=%23tachito';
+    params = '?' + _.map(tweetRace.params, function(num, key) {
+        return key + "=" + num;
+    }).join('&');
+        
     reqwest({
-        url: url,
+        url: 'http://search.twitter.com/search.json?q=#tachito',
         type: 'jsonp',
-        jsonpCallback: 'callback',
-        success: response,
-        error: response
-    }); 
-   
-    function response(x) {
-        var features = [],
-            latfield = '',
-            lonfield = '';
-      /*  if (!x || !x.feed) return features;
-        for (var f in x.feed.entry[0]) {
-            if (f.match(/\$Lat/i)){
-                latfield = f;           
-            }
-            if (f.match(/\$Lon/i)){
-                lonfield = f;              
-            }
-        }*/
-
-        for (var i = 0; i < x.feed.entry.length; i++) {                             
-            var entry = x.feed.entry[i];
-            var feature = {
-                geometry: {
-                    type: 'Point',
-                    coordinates: []
-                },
-                properties: {
-                    'marker-color':'#034',
-                    /*'description': entry['gsx$descripción-comentario'].$t,  
-                    'date': 'Fecha: ' + entry['gsx$fechaaviso'].$t,
-                    'hour': 'Hora: ' + entry['gsx$horaaviso'].$t,
-                    'marcatemporal':entry['gsx$marcatemporal'].$t    */  
-                }
-            };
-
-            for (var y in entry) {
-                if (y === latfield) feature.geometry.coordinates[1] = parseFloat(geo.coordinates[0]);
-                else if (y === lonfield) feature.geometry.coordinates[0] = parseFloat(geo.coordinates[1]);
-                else if (y.indexOf('gsx$') === 0) {                            
-                    feature.properties[y.replace('gsx$', '')] = entry[y].$t;
-                }
-            }
-            
-            if (feature.geometry.coordinates.length == 2) features.push(feature);
-
-          /*  _.each(feature, function(value, key) {
-                if(feature.properties['title']=="Robo"){ feature.properties['marker-color']='#CB3344'} 
-                if(feature.properties['title']=="Intento de Robo") {feature.properties['marker-color']='#FFCC33'}
-                if(feature.properties['title']=="Agresión") { feature.properties['marker-color']='#653332'}
-                if(feature.properties['title']=="Accidente") {feature.properties['marker-color']='#CC6633'}   
-                if(feature.properties['title']=="Violencia Familiar") {feature.properties['marker-color']='#666535'}                         
-                if(feature.properties['title']=="Otros") {feature.properties['marker-color']='#222222'}       
-            });*/
+        jsonCallback: 'callback',
+        success: function(d) {
+            tweetRace.processTweet(d);
         }
-        return callback(features);
-    }
-}
+    });
+};
+
+
+// Extract relevant data from tweets
+tweetRace.processTweet = function(d) {
+    _.each(d.results, function(element, index) {
+        if (element.geo && element.geo.type === 'Point') {
+            var lat = element.geo.coordinates[0], // Twitter seems to reverse the
+                lon = element.geo.coordinates[1]; // order of geojson coordinates
+                
+        } else if (element.location && element.location.indexOf(': ') > 0) {
+            var coords = element.location.split(': ')[1],
+                $lat = coords.split(',')[0] || 0,
+                $lon = coords.split(',')[1] || 0;
+
+            if (!isNaN(parseFloat($lat)) && !isNaN(parseFloat($lon))) {
+                var lon = parseFloat($lon),
+                    lat = parseFloat($lat);
+            }
+        }
+        
+        if (lat && lon) {
+            tweetRace.tweets.push({
+                lon: lon,
+                lat: lat,
+                time: formatDate(new Date(element.created_at)),
+                text: element.text,
+                user: '@' + element.from_user,
+                category: (element.text.toLowerCase().indexOf(tweets[0].toLowerCase()) >= 0) ? 'first' : 'second'
+            });
+        }
+    });
+    
+    tweetRace.params.since_id = d.max_id_str;
+    tweetRace.map();
+    
+  }
