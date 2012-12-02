@@ -1,5 +1,5 @@
 var data_id = '0AhfXukqwpMbidFEwQXVWNFdRLXdJZVcwamlUWDRvemc',
-    map_id='jclema.map-54suv3xn',
+    map_id='jclema.map-67xmty7x',
     markerLayer,
     features=[],
     features_summary,
@@ -55,7 +55,7 @@ mmg_google_docs_spreadsheet_1(data_id, mapData );
 
 
 map.centerzoom({  lat: -12.04157,  lon: -77.05688}, 13);
-map.setZoomRange(12, 15);
+map.setZoomRange(0, 18);
 
 
 
