@@ -48,7 +48,7 @@ setTimeout(function(){
 map.addLayer(mapbox.layer().id(map_id));
 mmg_google_docs_spreadsheet_1(data_id, mapData );
 
-},2000);
+},4000);
 
 
 
@@ -305,7 +305,7 @@ Ancon*/
    
     chart.draw(data, options);
     
-    var numpuntos=a_cantidad_type[7]+ _.size(features);
+    var numpuntos=a_cantidad_type[8]+ _.size(features);
     //Put the  total number incident on the view
     $('#num-incident').html('Total de puntos registrados : '+ numpuntos); 
     //Delete loading gif      
