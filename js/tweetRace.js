@@ -56,7 +56,7 @@ function getTweets (query, geo) {
 
         //alert('http://search.twitter.com/search.json' + params);
     reqwest({
-        url: 'http://search.twitter.com/search.json?q=%23tachito' ,
+        url: 'http://search.twitter.com/search.json?q=%23tachito&include_entities=1' ,
         type: 'jsonp',
         jsonCallback: 'callback',
         success: processTweet
@@ -80,6 +80,11 @@ var puntos = []
 
                features_t.push(element);//console.log(element);
                 tweetRace.resultado.push(element);
+
+/*para imagen*/
+                if(element.entities.media){
+                   console.log(element.entities.media[0].media_url);
+                }
 
 
               /* 
@@ -170,3 +175,8 @@ $('#stop').click(function(e){
         tweetRace.stop = true;
     }
 });
+
+
+
+/******************************************/
+

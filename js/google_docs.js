@@ -40,7 +40,8 @@ function mmg_google_docs_spreadsheet_1(id, callback) {
                     'description': entry['gsx$descripción-comentario'].$t,  
                     'date': 'Fecha: ' + entry['gsx$fechaaviso'].$t,
                     'hour': 'Hora: ' + entry['gsx$horaaviso'].$t,
-                    'marcatemporal':entry['gsx$marcatemporal'].$t      
+                    'marcatemporal':entry['gsx$marcatemporal'].$t,
+                    'url':entry['gsx$imagen'].$t
                 }
             };
 

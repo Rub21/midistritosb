@@ -86,6 +86,9 @@ var feature21 = {
                     'description': tweetRace.resultado[o].text,  
                     'date':  tweetRace.resultado[o].created_at,
                     'hour': ' ',
+                    'marcatemporal': tweetRace.resultado[o].id,
+                    'url':tweetRace.resultado[o].entities.media[0].media_url
+                   
                     
             }
     }
@@ -93,21 +96,23 @@ var feature21 = {
 feature21.geometry.coordinates[1] = parseFloat(tweetRace.resultado[o].geo.coordinates[0]);
 feature21.geometry.coordinates[0] = parseFloat(tweetRace.resultado[o].geo.coordinates[1]);
 
-/*console.log('inicion******************************');
-console.log(feature21.properties.distrito)
-console.log(feature21.properties.description)
-console.log(feature21.properties.date)
-console.log(feature21.geometry.coordinates);
-console.log('final******************************');*/
 
-/*console.log('Non ingreso la data');*/
+/*
+alert()
+var d1 = Date.parse(tweetRace.resultado[o].created_at);
+alert(d1.toString('dd/mm/yyyy HH:mm:ss GMT'));
+
+
+*/
+
+
 
 a_cantidad_type[7]++;
 features.push(feature21);
 
 
-console.log('ingreso la data');
-console.log(features);
+//console.log('ingreso la data');
+//console.log(features);
 
 }
 //alert(a_tipo_incidente.join());
@@ -126,9 +131,10 @@ console.log(features);
 
 
 function mapData(f) { 
+
+
     
- _.each(f, function (value, key) {
-       
+ _.each(f, function (value, key) {      
        
           features.push(f[key]);
     });
@@ -136,8 +142,8 @@ function mapData(f) {
 
 
 
-console.log(features);
-console.log('A Mapear adatos');
+//console.log(features);
+//console.log('A Mapear adatos');
 
 /*********************/
 
@@ -166,9 +172,13 @@ console.log('A Mapear adatos');
     interaction.formatter(function (feature) {
         var o = '<h3>'+feature.properties.distrito+'</h3>' +
         '<p>' + feature.properties.description + '</p>' +
+
+        '<img style=\'height: 100px; width:100px;\' src=\''+feature.properties.url+'\'> ' +  
+
         '<p><strong> Fecha :</strong> ' + 
         feature.properties.date.replace('Fecha: ',"") + ' '+
         feature.properties.hour.replace('Hora: ',"")+'</p>' ;
+
         return o;
     });
 
@@ -183,6 +193,10 @@ console.log('A Mapear adatos');
 
 fmonth(features);    
     //Out url for download  data
+
+
+createtable (f);
+
     download_data();
     $('#map').removeClass('loading');
     
@@ -605,7 +619,78 @@ $(document).on('ready',function() {
         $('#arrow_show_block').css('background-color','#292929') ;
     });
 
+    /**********************************************************************/
+         $("#dataTable a").on("click", function(e){
+
+     var id_variable=$(this).attr('id');// id_variable take id from 'a' tag
+     var lat_inc, lon_inc;//varrible lat_inc and lon_inc for get a latitud an longitud for ease.location
+
+//alert(id_variable);
+       markerLayer.filter(function (features) {  
+            
+
+            if(features.properties.marcatemporal.replace(/\s/g,"_")=== id_variable)//replaza los espacion en blanco con subguion y compara con el ID
+            {
+                //alert(features.properties.marcatemporal.replace(/\s/g,"_"));
+                lat_inc=features.geometry.coordinates[1];//take latitud
+                lon_inc=features.geometry.coordinates[0];//take longitud
+                map.ease.location({ lat: lat_inc, lon: lon_inc}).zoom(14).optimal();
+                return true; 
+            }
+
+            
+
+        });  
+      
+        return false;   
+    });
+
+
+
+
+
+
+
+
+
 });
 
 
 
+/************************************************/
+
+
+    function createtable (f){
+        // create table
+        var $table = $('<table>');
+        //id
+        $table.attr("id","dataTable")
+        // caption
+        $table.append('<caption>Ultimo Registros</caption>')
+        // thead
+        $table.append('<thead>').children('thead')
+        .append('<tr />').children('tr').append('<th>lugar</th><th>Fecha</th>');
+
+        //tbody
+        var $tbody = $table.append('<tbody />').children('tbody');
+
+        // add row
+
+//_.each(f, function (value, key) {
+        for (var i = f.length - 1; i >= f.length - 8; i--) {
+                  
+            $tbody.append('<tr/>').children('tr:last')
+            .append('<td><a id=\''+f[i].properties.marcatemporal.replace(/\s/g,"_")+ '\' href=\'#\'>'+ f[i].properties.distrito+"</a></td>")
+            .append("<td>"+f[i].properties.date.replace('Fecha: ',"")+"</td>");
+          
+        }
+ 
+   // });
+
+
+
+    // add table to dom
+    $table.appendTo('#dynamicTable');
+
+
+    }
