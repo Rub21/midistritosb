@@ -1,7 +1,7 @@
 var data_id = '0AhfXukqwpMbidFEwQXVWNFdRLXdJZVcwamlUWDRvemc',
     map_id='jimmyvelasquez.lima',
     markerLayer,
-    features,
+    features=[],
     features_summary,
     interaction,
     map = mapbox.map('map'),
@@ -33,26 +33,115 @@ var data_id = '0AhfXukqwpMbidFEwQXVWNFdRLXdJZVcwamlUWDRvemc',
         'Noviembre',
         'Diciembre'
     ];
+   
 
+     tweetRace.resultado = [];
+var t_data;
+
+
+//tweetRace.start();
+
+mm_twitter(fill_data_twiter);
+
+
+setTimeout(function(){
 map.addLayer(mapbox.layer().id(map_id));
 mmg_google_docs_spreadsheet_1(data_id, mapData );
+
+},2000);
+
+
+
 map.centerzoom({  lat: -12.04157,  lon: -77.05688}, 14);
 map.setZoomRange(10, 15);
 
+
+
+
+
+
+
+function fill_data_twiter(data_t){
+   console.log(tweetRace.resultado);
+
+
+
+
+for(o in tweetRace.resultado) {
+
+   console.log('-----ffffff')
+    console.log(tweetRace.resultado[o].geo.coordinates)
+    console.log(tweetRace.resultado[o].source);
+    console.log(tweetRace.resultado[o].created_at);
+
+
+var feature21 = {
+                geometry: {
+                    type: 'Point',
+                    coordinates: []
+                },
+                properties: {
+                    'marker-color':'#0ff',
+                    'distrito': 'Comas', //por prueba
+                    'description': tweetRace.resultado[o].text,  
+                    'date':  tweetRace.resultado[o].created_at,
+                    'hour': ' ',
+                    
+            }
+    }
+
+feature21.geometry.coordinates[1] = parseFloat(tweetRace.resultado[o].geo.coordinates[0]);
+feature21.geometry.coordinates[0] = parseFloat(tweetRace.resultado[o].geo.coordinates[1]);
+
+/*console.log('inicion******************************');
+console.log(feature21.properties.distrito)
+console.log(feature21.properties.description)
+console.log(feature21.properties.date)
+console.log(feature21.geometry.coordinates);
+console.log('final******************************');*/
+
+/*console.log('Non ingreso la data');*/
+a_cantidad_type[1]++;
+
+
+features.push(feature21);
+
+
+console.log('ingreso la data');
+console.log(features);
+
+}
+
+
+    
+}
+
+
+
+
 // Build map
-
-    var tweets = [
-            'tachito',             // First term
-          // 'play',             // Second term
-            '-12,-73,1500mi'     // search location and radius (lat,lon,radius)
-        ];
-
 
 
 
 
 function mapData(f) { 
-    features = f;
+    
+ _.each(f, function (value, key) {
+       
+       
+          features.push(f[key]);
+    });
+
+
+
+
+console.log(features);
+console.log('A Mapear adatos');
+
+/*********************/
+
+//setTimeout(function(){
+
     markerLayer = mapbox.markers.layer().features(features);
     //Center markers layer
     markerLayer.factory(function (m) {
@@ -83,18 +172,18 @@ function mapData(f) {
     });
 
 
+//},2000);
 
-//console.log(tweetRace.start);
-//tweetRace.start();
+
+
+
+
 //alert(features.length);
 
 fmonth(features);    
     //Out url for download  data
     download_data();
     $('#map').removeClass('loading');
-
-
-
     
 }
 
@@ -124,8 +213,8 @@ function fmonth(f) {
           aMonth.push(f[key].properties.distrito);
     });
    
-    /*aMonth = _.uniq(aMonth);
-    aMonth=aMonth.sort();*/
+    aMonth = _.uniq(aMonth);
+    /*aMonth=aMonth.sort();*/
  
     //Create a tag "li" and  "a" with "id=aMonth[i]" for menu month in the view
     for (var i = 0; i< aMonth.length; i++) {
@@ -190,8 +279,9 @@ function draw_main_box() {
    
     chart.draw(data, options);
     
+    var numpuntos=a_cantidad_type[7]+ _.size(features);
     //Put the  total number incident on the view
-    $('#num-incident').html('Total de puntos registrados : '+a_cantidad_type[6]); 
+    $('#num-incident').html('Total de puntos registrados : '+ numpuntos); 
     //Delete loading gif      
     $('#block_statistic').removeClass('loading');
 }
