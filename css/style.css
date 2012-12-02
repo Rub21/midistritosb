@@ -850,3 +850,8 @@ Block  for superposition, over the site
   filter: alpha(opacity=80);
   z-index: 99;
   }
+  #tachitocontainer {
+    text-align:center;
+    padding-top:15px;
+    }
+  
