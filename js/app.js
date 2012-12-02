@@ -48,6 +48,8 @@ setTimeout(function(){
 map.addLayer(mapbox.layer().id(map_id));
 mmg_google_docs_spreadsheet_1(data_id, mapData );
 
+
+
 },4000);
 
 
@@ -165,6 +167,7 @@ function mapData(f) {
     });
 
     interaction = mapbox.markers.interaction(markerLayer);
+    map.interaction.auto();
     map.addLayer(markerLayer);
     map.ui.zoomer.add();
     map.ui.zoombox.add();
