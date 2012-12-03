@@ -1,5 +1,5 @@
 var data_id = '0AhfXukqwpMbidFEwQXVWNFdRLXdJZVcwamlUWDRvemc',
-    map_id='jclema.map-67xmty7x',
+    map_id='examples.map-4l7djmvo',
     markerLayer,
     features=[],
     features_summary,
@@ -58,23 +58,67 @@ map.centerzoom({  lat: -12.04157,  lon: -77.05688}, 13);
 map.setZoomRange(0, 18);
 
 
-
-
-
-
-
 function fill_data_twiter(data_t){
    //console.log(tweetRace.resultado);
 
 
 
 
+   _.each(tweetRace.resultado, function (value, key) {
+       
+       //if(tweetRace.resultado[key].entities.media[0].media_url!=''){
+
+
+       var feature21 = {
+                geometry: {
+                    type: 'Point',
+                    coordinates: []
+                },
+                properties: {
+                    'marker-color':'#8EC1DA',
+                    'distrito': 'Centro de Lima', //por prueba
+                    'description': tweetRace.resultado[key].text,  
+                    'date':  tweetRace.resultado[key].created_at,
+                    'hour': ' ',
+                    'marcatemporal': tweetRace.resultado[key].created_at,
+                    //'url':tweetRace.resultado[key].entities.media[0].media_url
+                   
+                    
+                }
+    }
+
+feature21.geometry.coordinates[1] = parseFloat(tweetRace.resultado[key].geo.coordinates[0]);
+feature21.geometry.coordinates[0] = parseFloat(tweetRace.resultado[key].geo.coordinates[1]);
+
+
+//}
+
+/*
+alert()
+var d1 = Date.parse(tweetRace.resultado[o].created_at);
+alert(d1.toString('dd/mm/yyyy HH:mm:ss GMT'));
+
+
+*/
+
+
+
+a_cantidad_type[7]++;
+features.push(feature21);
+console.log(features);
+
+//console.log('ingreso la data');
+//console.log(features);
+
+  });
+
+
+
+
+/*
 for(o in tweetRace.resultado) {
 
-   //console.log('-----ffffff')
-    //console.log(tweetRace.resultado[o].geo.coordinates)
-    //console.log(tweetRace.resultado[o].source);
-    //console.log(tweetRace.resultado[o].created_at);
+
 
 
 var feature21 = {
@@ -92,12 +136,12 @@ var feature21 = {
                     'url':tweetRace.resultado[o].entities.media[0].media_url
                    
                     
-            }
+                }
     }
 
 feature21.geometry.coordinates[1] = parseFloat(tweetRace.resultado[o].geo.coordinates[0]);
 feature21.geometry.coordinates[0] = parseFloat(tweetRace.resultado[o].geo.coordinates[1]);
-
+*/
 
 /*
 alert()
@@ -108,15 +152,15 @@ alert(d1.toString('dd/mm/yyyy HH:mm:ss GMT'));
 */
 
 
-
+/*
 a_cantidad_type[7]++;
 features.push(feature21);
-
-
+console.log(features);
+*/
 //console.log('ingreso la data');
 //console.log(features);
 
-}
+//}
 //alert(a_tipo_incidente.join());
 
 
